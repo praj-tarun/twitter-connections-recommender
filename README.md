@@ -39,6 +39,9 @@ A concise, enterprise-grade pipeline that ingests Twitter data in real time, pro
 
 7. **Recommendation Engine**  
    - Orchestrates final ranking logic by querying the ALSH/FAISS index for similar users.
+   - ML Model (Optional): Further refines recommendations using historical engagement data.
+   - Recommendation Engine: Queries the ALSH index/ML model to retrieve similar user profiles.
+
 
 8. **FastAPI**  
    - Exposes RESTful endpoints to serve real-time recommendations, containerized (Docker/Kubernetes optional).
