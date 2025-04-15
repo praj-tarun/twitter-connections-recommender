@@ -1,4 +1,9 @@
 from pyspark.sql import SparkSession
+import os
+
+os.environ['PYSPARK_PYTHON'] = 'python'
+os.environ['PYSPARK_DRIVER_PYTHON'] = 'python'
+
 
 # Create a Spark session
 spark = SparkSession.builder \
