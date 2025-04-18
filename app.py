@@ -3,7 +3,7 @@ nest_asyncio.apply()
 
 
 import streamlit as st
-from core.data_gen import generate_tweet
+from core.data_gen import tweet_generator
 from core.embedding import get_model
 from core.indexer import get_index, add_to_index
 from core.recommender import get_recommendations
@@ -17,6 +17,8 @@ st.set_page_config(page_title="Live Tweet Recommender", layout="wide")
 model = get_model()
 index = get_index(model)
 
+tweet_gen = tweet_generator() 
+
 if "liked" not in st.session_state:
     st.session_state.liked = []
 
@@ -24,11 +26,11 @@ st.title("🟦 Live Tweet Recommender")
 
 st.markdown("### ✨ Live Feed")
 for _ in range(5):
-    t = generate_tweet()
+    t = next(tweet_gen)  # Get the next tweet from the generator
     fid, emb = add_to_index(t, model, index)
     with st.container():
         cols = st.columns([10, 1])
-        cols[0].markdown(f"**@{t['user']}**: {t['text']}")
+        cols[0].markdown(f"**@{t['user_id']}**: {t['text']}")
         if cols[1].button("❤️", key=f"like_{fid}"):
             st.session_state.liked.append((fid, emb))
             print(f"Liked tweets: {st.session_state.liked}")  # Debug statement
